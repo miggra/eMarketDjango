@@ -3,11 +3,27 @@ import email
 import logging
 from pyexpat import model
 from random import choices
+from tkinter import CASCADE
 from tokenize import Name
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 # Create your models here.
+class User(AbstractUser):
+    pass
+class Seller(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+class Customer(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
@@ -15,7 +31,10 @@ class Product(models.Model):
     rating = models.FloatField(null=True)
     main_image = models.ImageField()
     count = models.PositiveIntegerField()
-
+    seller = models.ForeignKey(
+        Seller,
+        on_delete=models.CASCADE
+    )
 
 class Comment(models.Model):
     text = models.TextField()
@@ -44,19 +63,22 @@ class ProductImage(models.Model):
     )
     date_time = models.DateTimeField() 
 
+class Order(models.Model):
+    product = models.ManyToManyField(
+        Product
+    )
+    date_time_created = models.DateTimeField()
+    class Statuses(models.IntegerChoices):
+        RESERVED = 1, 'Зарезервирован'
+        PAID = 2, 'Оплачен'
+        SHIPPED = 3, 'Отправлен'
+        WAIT_FOR_CUSTOMER = 4, 'Ожидает получения'
+        RECIEVED = 5, 'Получен'
+    status = models.IntegerField(
+        null=False,
+        default=Statuses.RESERVED,
+        choices=Statuses.choices
+        ) 
 
-class User(AbstractUser):
-    pass
-
-
-# class User(models.Model):
-#     name
-#     login 
-#     password
-#     phone
-#     email
-
-#     class Meta:
-#         abstract = True
-
-
+class Card(models.Model):    
+    product = models.ManyToManyField(Product)
