@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>{% block title %}eShop{% endblock %}</title>
+  <link href="{% static "css/base.css" %}" rel="stylesheet">
+</head>
+<body> 
+  <div id="header">
+    <div id="menu-bar">
+      {% block main_menu %}
+        <ul id="main-menu" class="main-menu">
+          <li><a href="{% url 'shop:index' %}">Главная</a></li>
+          <li><a href="{% url 'user_office:profile' %}">Личный кабинет</a></li>
+          {% block custom_menu %}
+          <li class="last"><a href="{% url 'shop:cart' %}">Корзина</a></li>
+          {% endblock %}
+        </ul>
+      {% endblock %}
+    </div>
+  </div>   
+  <div id="content">
+    {% block content %}
+    Рабочая область
+    {% endblock %}
+  </div>
+  <div id="footer">
+    {% block footer %}
+      <p>Выпускная контрольная работа по курсу "Программирование на Python"</p>
+    {% endblock %}
+  </div>
+</body>
+</html>

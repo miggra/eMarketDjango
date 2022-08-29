@@ -6,31 +6,21 @@ from random import choices
 from tkinter import CASCADE
 from tokenize import Name
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.conf import settings
-
+from accounts.models import Seller, Customer
 # Create your models here.
-class User(AbstractUser):
-    pass
-class Seller(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-    )
 
-class Customer(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-    )
+    
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    rating = models.FloatField(null=True)
+    rating = models.FloatField(null=True, blank=True)
     main_image = models.ImageField()
     count = models.PositiveIntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     seller = models.ForeignKey(
         Seller,
         on_delete=models.CASCADE
