@@ -15,11 +15,16 @@ urlpatterns = [
         auth_views.LogoutView.as_view(
             next_page = 'shop:index'),
         name='logout'),
-    path('registerAsSeller/',
+
+    path('register/',
+        views.register,
+        name='register'),
+
+    path('register/seller/',
         views.register_seller,
         name='register_seller'),
     
-    path('registerAsCustomer/',
+    path('register/customer/',
         views.register_customer,
         name='register_customer'),
 ]

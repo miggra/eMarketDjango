@@ -8,4 +8,6 @@
         {% csrf_token %}
         <p><input type="submit" value="Log-in"></p>
     </form>
+    <h3>Not registered yet?</h3>
+    <button><a href="{% url 'accounts:register'%}">Registration</a></button>
 {% endblock %}
