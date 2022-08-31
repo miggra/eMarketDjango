@@ -1,0 +1,10 @@
+{% extends "shop\base.html" %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+    <h1>Registration</h1>
+    <form action='.' method='POST'>
+        {% csrf_token %}
+        {{ form }}
+        <button type='submit'>Подтвердить</button>
+    </form>
+{% endblock %}
