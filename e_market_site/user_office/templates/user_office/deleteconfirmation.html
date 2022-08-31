@@ -1,0 +1,7 @@
+{% extends 'user_office/profile_seller.html' %}
+{% block features %}
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" value="Confirm" />
+    </form>
+{% endblock %}

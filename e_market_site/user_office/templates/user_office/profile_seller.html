@@ -1,21 +1,37 @@
 {% extends 'user_office/profile.html' %}
 {% block custom_menu %}
-<li class="last"><a href="">Заказы</a></li>
+<li class="nav-item last">
+    <a class="nav-link" href="">Заказы</a>
+</li>
 {% endblock %}
 {% block features %}
-    <div id="seller-products-list">        
-        <a href="{% url 'user_office:add_new_product' %}">Добавить товар</a>
-        {% block add_new_product %}
+    <div class="content-container">        
+        <a class="btn btn-success btn-lg main-func-btn" href="{% url 'user_office:add_new_product' %}">Добавить товар</a>
+        {% block product_details %}
         {% endblock %}
         <h3>Список товаров магазина {{shop_name}}</h3>
-        {% for product in seller_products %}
-            <div class="product_card">
-                <h4>{{product.name}}</h4>
-                <img src="{{ product.main_image.url }}">
-                <p>Цена: {{product.price}}</p>
-                <p>Рейтинг: {{product.rating}}</p>
-                <>
+        <div class="cards-container">
+            {% for product in seller_products %}        
+            <div class="card" style="width: 18rem;">
+                <img src="{{ product.main_image.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}}</h5>
+                    <p class="card-text">Цена: {{product.price}}</p>
+                    <p class="card-text">Рейтинг: {{product.rating}}</p>
+                    <p class="card-text">{{product.description}}</p>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-primary" 
+                        href="{% url 'user_office:update_product' product.pk %}">
+                            Редактировать
+                        </a>
+                        <a class="btn btn-danger" 
+                        href="{% url 'user_office:delete_product' product.pk %}">
+                            Удалить
+                        </a>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>            
     </div>
 {% endblock %}

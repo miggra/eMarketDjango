@@ -1,12 +1,12 @@
 {% extends 'user_office/profile_seller.html' %}
 
-{% block add_new_product %}
+{% block product_details %}
 <h2>Добавление товара</h2>
     <form action='add_new_product'
         enctype="multipart/form-data" 
         method='POST'>
         {% csrf_token %}
         {{ add_product_form.as_p }}
-        <button type='submit'>Добавить</button>
+        <button type='submit' class="btn btn-success">Добавить</button>
     </form>
 {% endblock %}

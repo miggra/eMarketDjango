@@ -8,22 +8,22 @@ from django.contrib.auth.models import Group
 from .models import Customer
 from .forms import LoginForm, RegisterForm, SellerRegisterForm
 
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if not form.is_valid():
-            return HttpResponse('Invalid login')
-        cd = form.cleaned_data
-        user = authenticate(username=cd['username'], password=cd['password'])
-        if user is None:
-            return HttpResponse('User not exists')
-        if not user.is_active:
-            return HttpResponse('Disabled account')
-        login(request, user)
-        return HttpResponse('Authenticated successfully')
-    else:
-        form = LoginForm()
-    return render(request, 'accounts/login.html', {'form': form})
+# def user_login(request):
+#     if request.method == 'POST':
+#         form = LoginForm(request.POST)
+#         if not form.is_valid():
+#             return HttpResponse('Invalid login')
+#         cd = form.cleaned_data
+#         user = authenticate(username=cd['username'], password=cd['password'])
+#         if user is None:
+#             return HttpResponse('User not exists')
+#         if not user.is_active:
+#             return HttpResponse('Disabled account')
+#         login(request, user)
+#         return HttpResponse('Authenticated successfully')
+#     else:
+#         form = LoginForm()
+#     return render(request, 'accounts/login.html', {'form': form})
 
 
 def register(request):

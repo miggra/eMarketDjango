@@ -1,0 +1,12 @@
+{% extends 'user_office/profile_seller.html' %}
+
+{% block product_details %}
+<h2>Изменить товар</h2>
+    <form action='update_product'
+        enctype="multipart/form-data" 
+        method='POST'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type='submit'>Сохранить</button>
+    </form>
+{% endblock %}
