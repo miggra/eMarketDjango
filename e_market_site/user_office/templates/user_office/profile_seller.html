@@ -3,6 +3,16 @@
 <li class="last"><a href="">Заказы</a></li>
 {% endblock %}
 {% block features %}
-    <p>Добавить товар</p>
-    <p>Список товаров</p>
+    <div id="seller-products-list">        
+        <a href="">Добавить товар</a>
+        <h3>Список товаров магазина {{shop_name}}</h3>
+        {% for product in seller_products %}
+            <div class="product_card">
+                <h4>{{product.name}}</h4>
+                <img src="{{product.main_image}}">
+                <p>Цена: {{product.price}}</p>
+                <p>Рейтинг: {{product.rating}}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

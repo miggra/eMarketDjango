@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import Group
 
 from .models import Customer
 from .forms import LoginForm, RegisterForm, SellerRegisterForm
@@ -51,22 +52,25 @@ def register_customer(request):
 
 def register_seller(request):
     if request.method == 'POST':
-        user_form = RegisterForm(request.POST)
-        if user_form.is_valid():
-            user_form.save()
-            cd = user_form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password1'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)    
-
+        user_form = RegisterForm(request.POST)        
         seller_form = SellerRegisterForm(request.POST)
-        if seller_form.is_valid():
-            new_seller = seller_form.save(commit=False)
-            new_seller.user = request.user
-            new_seller.save()
-            seller_form.save_m2m()
-            return redirect(reverse('user_office:profile_seller'))
+        if (not user_form.is_valid() 
+            or not seller_form.is_valid()):
+            return
+        user_form.save()
+        cd = user_form.cleaned_data
+        user = authenticate(username=cd['username'], password=cd['password1'])
+        if user is None or  not user.is_active:
+            return
+        login(request, user)    
+        sellers = Group.objects.get(name='Sellers')
+        sellers.user_set.add(user)
+
+        new_seller = seller_form.save(commit=False)
+        new_seller.user = request.user
+        new_seller.save()
+        seller_form.save_m2m()
+        return redirect(reverse('user_office:profile_seller'))
     else:
         user_form = RegisterForm()
         seller_form = SellerRegisterForm()
