@@ -14,7 +14,6 @@ def is_customer(user):
 def profile(request):
     if not request.user.is_authenticated:
         return redirect(reverse('accounts:login'))
-    pdb.set_trace()
     user = request.user
     if is_seller(user):
         seller_products = user.seller.product_set.all()
