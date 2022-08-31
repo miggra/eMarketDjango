@@ -4,7 +4,9 @@
 {% endblock %}
 {% block features %}
     <div id="seller-products-list">        
-        <a href="">Добавить товар</a>
+        <a href="{% url 'user_office:add_new_product' %}">Добавить товар</a>
+        {% block add_new_product %}
+        {% endblock %}
         <h3>Список товаров магазина {{shop_name}}</h3>
         {% for product in seller_products %}
             <div class="product_card">
@@ -12,6 +14,7 @@
                 <img src="{{ product.main_image.url }}">
                 <p>Цена: {{product.price}}</p>
                 <p>Рейтинг: {{product.rating}}</p>
+                <>
             </div>
         {% endfor %}
     </div>

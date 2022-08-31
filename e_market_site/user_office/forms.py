@@ -1,6 +1,6 @@
 from django import forms
 from shop.models import Product
-class SellerRegisterForm(forms.ModelForm):        
+class AddProductForm(forms.ModelForm):        
     class Meta:
         model = Product
         fields = (
@@ -8,7 +8,6 @@ class SellerRegisterForm(forms.ModelForm):
             'category',
             'description',
             'price',
-            'rating',
             'main_image',
             'count'
         )

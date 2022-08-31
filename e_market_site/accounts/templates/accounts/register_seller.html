@@ -4,8 +4,8 @@
     <h1>Registration</h1>
     <form action='.' method='POST'>
         {% csrf_token %}
-        {{ user_form }}
-        {{ seller_form }}
+        {{ user_form.as_p  }}
+        {{ seller_form.as_p  }}
         <button type='submit'>Подтвердить</button>
     </form>
 {% endblock %}

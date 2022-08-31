@@ -11,17 +11,16 @@ from .forms import LoginForm, RegisterForm, SellerRegisterForm
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Authenticated successfully')
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
+        if not form.is_valid():
+            return HttpResponse('Invalid login')
+        cd = form.cleaned_data
+        user = authenticate(username=cd['username'], password=cd['password'])
+        if user is None:
+            return HttpResponse('User not exists')
+        if not user.is_active:
+            return HttpResponse('Disabled account')
+        login(request, user)
+        return HttpResponse('Authenticated successfully')
     else:
         form = LoginForm()
     return render(request, 'accounts/login.html', {'form': form})
@@ -33,18 +32,19 @@ def register(request):
 def register_customer(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password1'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    new_customer = Customer(user=user)          
-                    new_customer.save()          
-                    return redirect(reverse('user_office:profile_customer'))
-                else:
-                    return HttpResponse('Disabled account')
+        if not form.is_valid():
+            return HttpResponse('Form is not valid')
+        form.save()
+        cd = form.cleaned_data
+        user = authenticate(username=cd['username'], password=cd['password1'])
+        if user is None:
+            return HttpResponse('User not exists')
+        if not user.is_active:
+            return HttpResponse('Disabled account')
+        login(request, user)
+        new_customer = Customer(user=user)          
+        new_customer.save()          
+        return redirect(reverse('user_office:profile'))
     else:
         form = RegisterForm()
         args = {'form': form}
@@ -56,12 +56,14 @@ def register_seller(request):
         seller_form = SellerRegisterForm(request.POST)
         if (not user_form.is_valid() 
             or not seller_form.is_valid()):
-            return
+            return HttpResponse('Form is not valid')
         user_form.save()
         cd = user_form.cleaned_data
         user = authenticate(username=cd['username'], password=cd['password1'])
-        if user is None or  not user.is_active:
-            return
+        if user is None:
+            return HttpResponse('User not exists')
+        if not user.is_active:
+            return HttpResponse('Disabled account')
         login(request, user)    
         sellers = Group.objects.get(name='Sellers')
         sellers.user_set.add(user)
@@ -70,7 +72,7 @@ def register_seller(request):
         new_seller.user = request.user
         new_seller.save()
         seller_form.save_m2m()
-        return redirect(reverse('user_office:profile_seller'))
+        return redirect(reverse('user_office:profile'))
     else:
         user_form = RegisterForm()
         seller_form = SellerRegisterForm()

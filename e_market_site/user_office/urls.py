@@ -7,6 +7,5 @@ from . import views
 app_name = 'user_office'
 urlpatterns = [
     path('profile/', views.profile, name='profile'),
-    path('profileCustomer/', views.profile, name='profile_customer'),
-    path('profileSeller/', views.profile, name='profile_seller'),
+    path('profile/add_new_product', views.add_new_product, name='add_new_product'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
