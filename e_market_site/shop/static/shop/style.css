@@ -31,7 +31,12 @@
 
 .menu-buttons {
     background-color: rgb(209, 214, 191);
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
 }
+
+li.right-items {float: right;}
 
 .content-container{
     display: flex;

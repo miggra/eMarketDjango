@@ -1,3 +1,4 @@
+from multiprocessing import context
 import pdb
 from django.http import HttpResponse
 from django.urls import reverse
@@ -5,8 +6,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import Group
 
+from shop.menu import Menu
+
 from .models import Customer
 from .forms import LoginForm, RegisterForm, SellerRegisterForm
+from django.contrib.auth.views import LoginView
 
 # def user_login(request):
 #     if request.method == 'POST':
@@ -27,7 +31,9 @@ from .forms import LoginForm, RegisterForm, SellerRegisterForm
 
 
 def register(request):
-    return render(request, 'accounts/register.html')
+    
+    return render(request, 'accounts/register.html', 
+            {'menu' : Menu(request)})
 
 def register_customer(request):
     if request.method == 'POST':
@@ -42,12 +48,16 @@ def register_customer(request):
         if not user.is_active:
             return HttpResponse('Disabled account')
         login(request, user)
+        customers = Group.objects.get(name='Customers')
+        customers.user_set.add(user)
         new_customer = Customer(user=user)          
         new_customer.save()          
         return redirect(reverse('user_office:profile'))
     else:
         form = RegisterForm()
-        args = {'form': form}
+        args = {
+            'menu' : Menu(request),
+            'form': form}
         return render(request, 'accounts/register_customer.html', context=args)
 
 def register_seller(request):
@@ -76,8 +86,19 @@ def register_seller(request):
     else:
         user_form = RegisterForm()
         seller_form = SellerRegisterForm()
-        args = {
+        args = {            
+            'menu' : Menu(request),
             'user_form': user_form,
             'seller_form': seller_form
             }
         return render(request, 'accounts/register_seller.html', context=args)
+
+class ExtendedLoginView(LoginView):
+    template_name='accounts/login.html'
+    next_page = 'user_office:profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        extra_context = {'menu' : Menu(self.request)}
+        context.update(extra_context)
+        return context

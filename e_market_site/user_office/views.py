@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic import DetailView, UpdateView, DeleteView
+from shop.menu import Menu
 
 from shop.models import Product
 
@@ -30,11 +31,14 @@ def profile(request):
     if not request.user.is_authenticated:
         return redirect(reverse('accounts:login'))
     user = request.user
+    context = {        
+        'menu': Menu(request)
+    }
     if is_seller(user):
-        context = get_seller_context(user)
+        context = dict(context, **get_seller_context(user))
         return render(request, 'user_office/profile_seller.html', context)
     else:    
-        return render(request, 'user_office/profile_customer.html')
+        return render(request, 'user_office/profile_customer.html', context)
 
 
 def add_new_product(request):
