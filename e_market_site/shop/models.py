@@ -11,7 +11,7 @@ from accounts.models import Seller, Customer
 
 def shop_products_images_path(instance, filename):
     shop_name = instance.seller.shop_name
-    return 'sellers_statics/{0}/{1}'.format(shop_name, filename)
+    return 'shop/static/sellers_images/{0}/{1}'.format(shop_name, filename)
 
 class Product(models.Model):
     name = models.CharField(max_length=255)

@@ -1,10 +1,11 @@
 {% extends "shop\base.html" %}
 {% block title %}Log-in{% endblock %}
+
+{% block page_title %}         
+    <h1>Вход</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="workspace-header">          
-        <h1>Вход</h1>
-    </div>
-    <div class="content-container">  
         <h4>Пожалуйста, заполните форму для входа:</h4>
         <form action="." method="POST">
             {{ form.as_p }}
@@ -13,5 +14,4 @@
         </form>
         <h3>Еще не зарегистрированы?</h3>
         <a class="btn btn-outline-success" href="{% url 'accounts:register'%}">Регистрация</a>
-    </div>
 {% endblock %}

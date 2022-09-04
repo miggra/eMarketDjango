@@ -1,70 +1,37 @@
 {% load static %}
+
 <link rel="stylesheet"
       type="text/css"
       href="{% static 'bootstrap/css/bootstrap.css'%}"/>
 <link rel="stylesheet"
       type="text/css"
-      href="{% static 'shop/css/style.css'%}"/>
+      href="{% static 'shop/style.css'%}"/>
+{% block extra_styles %} {% endblock %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}eShop{% endblock %}</title>
-  <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body> 
   <div id="header">
     <div id="menu-bar">
       {% block main_menu %}
-        <ul id="main-menu" class="nav menu-buttons">
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'shop:index' %}">Главная</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'user_office:profile' %}">Личный кабинет</a>
-          </li>
-          {% block custom_menu %}
-          <li class="nav-item last">
-            <a class="nav-link" href="{% url 'shop:cart' %}">Корзина</a>
-          </li>
-          {% endblock %}
-        </ul>
+        {% include 'shop\menu_bar.html' %}
       {% endblock %}
     </div>
   </div>   
   <div class="main">
-    {% block content %}
-      <div class="workspace-header">          
-        <h1>Последние новинки</h1>
-      </div>
-      <div class="content-container">   
-        <div class="cards-container">
-          {% for product in products %}        
-            <div class="card" style="width: 18rem;">
-              <img src="{{ product.main_image.url }}" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title">{{product.name}}</h5>
-                <p class="card-text">Цена: {{product.price}}</p>
-                <p class="card-text">Рейтинг: {{product.rating}}</p>
-                <p class="card-text">Описание: {{product.description}}</p>
-                <p class="card-text">Продавец: {{product.seller.shop_name}}</p>
-                <p class="card-text">В наличии: {{product.count}}</p>
-                <div class="btn-group" role="group">
-                  <form action="{% url 'cart:cart_add' product.id %}" method="post">
-                    {{ cart_product_form }}
-                    {% csrf_token %}
-                    <input type="submit" 
-                      class="btn btn-success" 
-                      value="В корзину">
-                </form>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endblock %}
+    <div class="workspace-header">  
+      {% block page_title %}        
+      <h1>Последние новинки</h1>
+      {% endblock %}
+    </div>
+    <div class="content-container">   
+      {% block content %}
+      {% endblock %}
+    </div>
   </div>
   <div id="footer">
     {% block footer %}

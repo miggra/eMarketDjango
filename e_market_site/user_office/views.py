@@ -41,8 +41,7 @@ def add_new_product(request):
     user = request.user
     if request.method == 'POST':
         add_product_form = AddProductForm(request.POST, request.FILES) 
-        
-        print(add_product_form.errors)
+      
         if not add_product_form.is_valid():
             return HttpResponse('Form is not valid')
 
@@ -77,9 +76,13 @@ class UpdateProductView(UpdateView):
             'count'
         )
 
+    def get_success_url(self) -> str:
+        return reverse('user_office:profile')
+        
+
 class DeleteProductView(DeleteView):
     model = Product
     template_name = 'user_office/deleteconfirmation.html'
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse('user_office:profile')

@@ -1,18 +1,26 @@
-{% extends "shop/base.html" %}
-{% block title %}
-    Ваша корзина
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block extra_styles %} 
+<link rel="stylesheet"
+      type="text/css"
+      href="{% static 'cart/style.css'%}"/>
 {% endblock %}
-{% block content %}
+
+{% block page_title %}
     <h1>Ваша корзина</h1>
+{% endblock %}
+
+{% block content %}
+    {% if cart %}
     <table class="cart">
         <thead>
         <tr>
             <th>Image</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Remove</th>
-            <th>Unit price</th>
-            <th>Price</th>
+            <th>Название</th>
+            <th>Количество</th>
+            <th></th>
+            <th>Цена за шт.</th>
+            <th>Стоимость</th>
         </tr>
         </thead>
         <tbody>
@@ -21,31 +29,36 @@
                 <tr>
                     <td>
                         <a href="{{ product.get_absolute_url }}">
-                            <img src="
-                                {% if product.image %}
-                                    {{ product.image.url }}
+                            <img class="small-image"
+                                src="
+                                {% if product.main_image %}
+                                    {{ product.main_image.url }}
                                 {% else %}
-                                    {% static "img/no_image.png" %}
+                                    {% static 'no_image.jpg' %}
                                 {% endif %}">
                         </a>
                     </td>
                     <td>{{ product.name }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td><a href="{% url "cart:cart_remove" product.id%}">Remove</a></td>
+                    <td><a href="{% url "cart:cart_remove" product.id%}" 
+                        class="btn btn-outline-secondary">Удалить</a></td>
                     <td class="num">${{ item.price }}</td>
                     <td class="num">${{ item.total_price }}</td>
                 </tr>
             {% endwith %}
         {% endfor %}
         <tr class="total">
-            <td>Total</td>
+            <td>Всего</td>
             <td colspan="4"></td>
             <td class="num">${{ cart.get_total_price }}</td>
         </tr>
         </tbody>
     </table>
-    <p class="text-right">
-        <a href="{% url "shop:product_list" %}" class="button light">Continue shopping</a>
-        <a href="#" class="button">Checkout</a>
-    </p>
+    {% else %}
+    <p>Совершенно пуста. Сначала выберите себе что-нибудь!</p>
+    {% endif %}
+    <div class="cart-buttons">
+        <a href="{% url 'shop:index' %}" class="btn btn-primary btn-lg">Продолжить покупки</a>
+        <a href="#" class="btn btn-success btn-lg">Сделать заказ</a>
+    </div>
 {% endblock %}

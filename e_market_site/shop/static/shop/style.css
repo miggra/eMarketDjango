@@ -6,9 +6,13 @@
 }
 
 .main {
-    height: 100%;
+    height: fit-content;
 }
-.profile-content{
+.profile-content{    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     margin: 30px;
 }
 
@@ -38,3 +42,15 @@
 .main-func-btn{
 
 }
+
+#footer {
+    padding: 10px;
+}
+
+
+
+.small-image{
+    width: 200;
+    height: auto;
+}
+

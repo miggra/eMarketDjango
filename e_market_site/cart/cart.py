@@ -1,4 +1,5 @@
 from decimal import Decimal
+import pdb
 from django.conf import settings
 from shop.models import Product
 
@@ -29,6 +30,12 @@ class Cart(object):
         else:
             self.cart[product_id]['quantity'] += quantity
         self.save()
+
+    def get_total_count(self):
+        total_count = 0
+        for product in self:
+            total_count += product['quantity']
+        return total_count
 
     def save(self):
         # Обновление сессии cart
