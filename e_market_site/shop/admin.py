@@ -5,8 +5,16 @@ from accounts.models import Customer, Seller, User
 
 
 
-admin.site.register(User, UserAdmin)
+
 admin.site.register(Customer)
+
+
+class CustomUserAdmin(UserAdmin):
+    list_display = ("username", "email", "first_name", "last_name", "get_groups")
+    def get_groups(self, user):
+        return "\n".join([g.name for g in user.groups.all()])
+    
+admin.site.register(User, CustomUserAdmin)
 
 
 @admin.register(Seller)
