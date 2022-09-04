@@ -1,9 +1,12 @@
 {% extends 'shop/base.html' %}
-{% block content %}
-    <h1>User office for {{username}}</h1>
-    <a href="{% url 'accounts:logout' %}">Logout</a>
 
-    {% block features %}
-    
-    {% endblock %}
+{% block page_title %}   
+    <h1>Личный кабинет пользователя: {{user.username}}</h1>
+    <a class="btn btn-dark" href="{% url 'accounts:logout' %}">Выход</a>
+{% endblock %}
+{% block content %}
+    <div class="profile-content">     
+        {% block features %}
+        {% endblock %}    
+    </div>
 {% endblock %}

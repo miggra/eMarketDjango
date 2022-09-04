@@ -1,0 +1,11 @@
+{% extends 'user_office/profile_seller.html' %}
+
+{% block features %}
+<h2>Изменить товар</h2>
+<form enctype="multipart/form-data" 
+    method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type='submit' class="btn btn-success">Сохранить</button>
+</form>
+{% endblock %}

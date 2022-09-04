@@ -1,33 +1,41 @@
 {% load static %}
+
+<link rel="stylesheet"
+      type="text/css"
+      href="{% static 'bootstrap/css/bootstrap.css'%}"/>
+<link rel="stylesheet"
+      type="text/css"
+      href="{% static 'shop/style.css'%}"/>
+{% block extra_styles %} {% endblock %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}eShop{% endblock %}</title>
-  <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body> 
   <div id="header">
     <div id="menu-bar">
       {% block main_menu %}
-        <ul id="main-menu" class="main-menu">
-          <li><a href="{% url 'shop:index' %}">Главная</a></li>
-          <li><a href="{% url 'user_office:profile' %}">Личный кабинет</a></li>
-          {% block custom_menu %}
-          <li class="last"><a href="{% url 'shop:cart' %}">Корзина</a></li>
-          {% endblock %}
-        </ul>
+        {% include 'shop\menu_bar.html' %}
       {% endblock %}
     </div>
   </div>   
-  <div id="content">
-    {% block content %}
-    Рабочая область
-    {% endblock %}
+  <div class="main">
+    <div class="workspace-header">  
+      {% block page_title %}        
+      <h1>Последние новинки</h1>
+      {% endblock %}
+    </div>
+    <div class="content-container">   
+      {% block content %}
+      {% endblock %}
+    </div>
   </div>
   <div id="footer">
     {% block footer %}
-      <p>Выпускная контрольная работа по курсу "Программирование на Python"</p>
+      <p>ВКР "Программирование на Python" Designed by Grass M.G.</p>
     {% endblock %}
   </div>
 </body>

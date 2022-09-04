@@ -1,0 +1,27 @@
+{% extends "shop/base.html" %}
+{% block content %}
+    <div class="cards-container">
+        {% for product in products %}        
+            <div class="card" style="width: 18rem;">
+                <img src="{{ product.main_image.url }}" class="card-img-top">
+                <div class="card-body">
+                <h5 class="card-title">{{product.name}}</h5>
+                <p class="card-text">Цена: ${{product.price}}</p>
+                <p class="card-text">Рейтинг: {{product.rating}}</p>
+                <p class="card-text">Описание: {{product.description}}</p>
+                <p class="card-text">Продавец: {{product.seller.shop_name}}</p>
+                <p class="card-text">В наличии: {{product.count}}</p>
+                <div class="btn-group" role="group">
+                    <form action="{% url 'cart:cart_add' product.id %}" method="POST">
+                    {{ cart_product_form }}
+                    {% csrf_token %}
+                    <input type="submit" 
+                        class="btn btn-success" 
+                        value="В корзину">
+                </form>
+                </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endblock %}

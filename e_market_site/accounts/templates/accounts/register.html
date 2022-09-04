@@ -1,13 +1,14 @@
 {% extends "shop\base.html" %}
-{% block title %}Registration{% endblock %}
+
+{% block page_title %}         
+    <h1>Регистрация</h1>
+{% endblock %}
 {% block content %}
-    <h1>Registration</h1>
-    <p>Please select, what kind of account
-         you want to create</p>
-    <form action='seller' method='GET'>
-        <button type='submit'> Seller</button>
+    <p>Пожалуйста, укажите какой вид аккаунта вы хотите создать</p>
+    <form action='seller/' method='GET'>
+        <button type='submit' class="btn btn-primary">Магазин</button>
     </form>
-    <form action='customer' method='GET'>
-        <button type='submit'> Customer</button>
+    <form action='customer/' method='GET'>
+        <button type='submit' class="btn btn-primary">Покупатель</button>
     </form>
 {% endblock %}

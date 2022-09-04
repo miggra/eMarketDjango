@@ -9,15 +9,17 @@ from django.db import models
 from accounts.models import Seller, Customer
 # Create your models here.
 
-    
+def shop_products_images_path(instance, filename):
+    shop_name = instance.seller.shop_name
+    return 'shop/static/sellers_images/{0}/{1}'.format(shop_name, filename)
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     rating = models.FloatField(null=True, blank=True)
-    main_image = models.ImageField()
+    main_image = models.ImageField(upload_to=shop_products_images_path)
     count = models.PositiveIntegerField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

@@ -1,11 +1,12 @@
 {% extends "shop\base.html" %}
-{% block title %}Registration{% endblock %}
+{% block page_title %}         
+    <h1>Регистрация магазина</h1>
+{% endblock %}
 {% block content %}
-    <h1>Registration</h1>
     <form action='.' method='POST'>
         {% csrf_token %}
-        {{ user_form }}
-        {{ seller_form }}
-        <button type='submit'>Подтвердить</button>
+        {{ user_form.as_p  }}
+        {{ seller_form.as_p  }}
+        <button type='submit' class="btn btn-success">Подтвердить</button>
     </form>
 {% endblock %}
