@@ -1,13 +1,17 @@
 {% extends "shop\base.html" %}
 {% block title %}Log-in{% endblock %}
 {% block content %}
-    <h1>Log-in</h1>
-    <p>Please, use the following form to log-in:</p>
-    <form action="." method="POST">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Log-in"></p>
-    </form>
-    <h3>Not registered yet?</h3>
-    <button><a href="{% url 'accounts:register'%}">Registration</a></button>
+    <div class="workspace-header">          
+        <h1>Вход</h1>
+    </div>
+    <div class="content-container">  
+        <h4>Пожалуйста, заполните форму для входа:</h4>
+        <form action="." method="POST">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" class="btn btn-success" value="Войти"></p>
+        </form>
+        <h3>Еще не зарегистрированы?</h3>
+        <a class="btn btn-outline-success" href="{% url 'accounts:register'%}">Регистрация</a>
+    </div>
 {% endblock %}

@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.views.generic import DetailView, UpdateView, DeleteView
+
+from shop.models import Product
 
 from .forms import AddProductForm
 
@@ -56,3 +59,27 @@ def add_new_product(request):
         context = dict(**get_seller_context(user), **args) 
         
         return render(request, 'user_office/add_new_product.html', context)
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'user_office/product_details.html'
+
+class UpdateProductView(UpdateView):
+    model = Product
+    template_name = 'user_office/update_product.html'
+    fields = (
+            'name',
+            'category',
+            'description',
+            'price',
+            'main_image',
+            'count'
+        )
+
+class DeleteProductView(DeleteView):
+    model = Product
+    template_name = 'user_office/deleteconfirmation.html'
+
+    def get_success_url(self):
+        return reverse('user_office:profile')
